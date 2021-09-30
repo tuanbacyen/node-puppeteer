@@ -1,0 +1,12 @@
+{
+  "name": "node-puppeteer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^10.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
