@@ -5,20 +5,29 @@ class Base {
     this.page = page;
   }
 
-  run() {
+  async run() {
     try {
+      // clear all cookies
+      const client = await this.page.target().createCDPSession()
+      await client.send('Network.clearBrowserCookies')
+
       if (true) {
-        this.reg();
+        await this.reg();
       } else {
-        this.login();
+        await this.login();
       }
+      await this.logout();
+      // remove current page
+      await this.page.close();
     } catch (error) {
       console.log(error);
-      this.browser.close();
+      // remove current page
+      await this.page.close();
+      await this.browser.close();
     }
   }
 
-  async reg() {
+  reg() {
     console.log("app reg");
   }
 
@@ -26,17 +35,21 @@ class Base {
     console.log("app login");
   }
 
+  logout() {
+    console.log("app logout");
+  }
+
   // private methods
-  async goto(url) {
-    await this.page.goto(url);
+  goto(url) {
+    this.page.goto(url);
   }
 
-  async keyboard(str) {
-    await this.page.keyboard.type(str);
+  keyboard(str) {
+    this.page.keyboard.type(str);
   }
 
-  async input(elName, str) {
-    await this.page.$eval(elName, el => el.value = str);
+  input(elName, str) {
+    this.page.$eval(elName, el => el.value = str);
   }
 
   click(element) {
